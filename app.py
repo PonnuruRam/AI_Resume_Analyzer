@@ -59,8 +59,6 @@ if uploaded_file:
          st.write("Excellent Resume!")
     st.subheader("Recommended Job Role")
 
-    st.subheader("Recommended Job Role")
-
     role = "General IT Professional"
 
     if "Python" in skills and "Machine Learning" in skills:
