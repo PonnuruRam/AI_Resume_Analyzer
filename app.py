@@ -5,7 +5,7 @@ from score import calculate_score
 from ats_score import calculate_ats_score
 from pdf_report import create_pdf
 
-st.title("📄 AI Resume Analyzer")
+st.title("Resume Analyzer")
 
 uploaded_file = st.file_uploader(
     "Upload Resume",
