@@ -1,0 +1,11 @@
+import pdfplumber
+
+def read_pdf(pdf_file):
+    text = ""
+
+    with pdfplumber.open(pdf_file) as pdf:
+        for page in pdf.pages:
+            if page.extract_text():
+                text += page.extract_text()
+
+    return text
