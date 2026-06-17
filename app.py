@@ -2,6 +2,8 @@ import streamlit as st
 from pdf_reader import read_pdf
 from skill_extractor import extract_skills
 from score import calculate_score
+from ats_score import calculate_ats_score
+from pdf_report import create_pdf
 
 st.title("📄 AI Resume Analyzer")
 
@@ -40,6 +42,11 @@ if uploaded_file:
     else:
          st.success("Excellent resume! Your resume is strong.")
     st.write(score, "/100")
+    st.subheader("🎯 ATS Score")
+
+    ats_score, found = calculate_ats_score(text)
+
+    st.success(f"ATS Score: {ats_score}/100")
     st.subheader("Suggestions")
 
     if score < 40:
@@ -52,17 +59,31 @@ if uploaded_file:
          st.write("Excellent Resume!")
     st.subheader("Recommended Job Role")
 
+    st.subheader("Recommended Job Role")
+
+    role = "General IT Professional"
+
     if "Python" in skills and "Machine Learning" in skills:
-        st.success("AI / Machine Learning Engineer")
+        role = "AI / Machine Learning Engineer"
 
     elif "Java" in skills:
-        st.success("Software Developer")
+        role = "Software Developer"
 
     elif "MySQL" in skills:
-        st.success("Database Developer")
+        role = "Database Developer"
 
     elif "HTML" in skills:
-        st.success("Web Developer")
+        role = "Web Developer"
 
-    else:
-        st.info("General IT Professional")
+    st.success(role)
+    st.subheader("📄 Download PDF Report")
+
+    pdf_file = create_pdf(score, ats_score, skills, role)
+
+    with open(pdf_file, "rb") as file:
+        st.download_button(
+        label="Download Report",
+        data=file,
+        file_name="Resume_Report.pdf",
+        mime="application/pdf"
+    )
