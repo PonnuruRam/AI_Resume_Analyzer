@@ -1,14 +1,75 @@
 import streamlit as st
+st.set_page_config(
+    page_title="AI Resume Analyzer",
+    page_icon="🚀",
+    layout="wide"
+)
+
+st.markdown("""
+<style>
+.main {
+    background-color: #f8fafc;
+}
+
+h1 {
+    text-align: center;
+    color: #2563eb;
+}
+
+div[data-testid="stFileUploader"] {
+    border: 2px dashed #2563eb;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+div[data-testid="metric-container"] {
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+}
+</style>
+""", unsafe_allow_html=True)
 from pdf_reader import read_pdf
 from skill_extractor import extract_skills
 from score import calculate_score
 from ats_score import calculate_ats_score
 from pdf_report import create_pdf
 import pandas as pd
+st.set_page_config(
+    page_title="AI Resume Analyzer",
+    page_icon="🚀",
+    layout="wide"
+)
+st.markdown("""
+<style>
+.main {
+    background-color: #f8fafc;
+}
+
+h1 {
+    text-align: center;
+    color: #2563eb;
+}
+
+div[data-testid="stFileUploader"] {
+    border: 2px dashed #2563eb;
+    border-radius: 15px;
+    padding: 20px;
+    background: white;
+}
+
+div[data-testid="metric-container"] {
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+}
+</style>
+""", unsafe_allow_html=True)
 if "history" not in st.session_state:
     st.session_state.history = []
 
-st.title("Resume Analyzer")
+st.title("🚀 AI Resume Analyzer")
+st.write("Upload your resume and get ATS Score, Resume Score, Job Role Prediction and Interview Questions")
 
 uploaded_file = st.file_uploader(
     "Upload Resume",
