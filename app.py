@@ -77,6 +77,7 @@ if uploaded_file:
         role = "Web Developer"
 
     st.success(role)
+
     new_record = {
         "File Name": uploaded_file.name,
         "Resume Score": score,
