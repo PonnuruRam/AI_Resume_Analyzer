@@ -4,8 +4,9 @@ from skill_extractor import extract_skills
 from score import calculate_score
 from ats_score import calculate_ats_score
 from pdf_report import create_pdf
-from database import save_data, view_data
 import pandas as pd
+if "history" not in st.session_state:
+    st.session_state.history = []
 
 st.title("Resume Analyzer")
 
@@ -76,30 +77,30 @@ if uploaded_file:
         role = "Web Developer"
 
     st.success(role)
-    save_data(
-        uploaded_file.name,
-        score,
-        ats_score,
-        role
-)
+    new_record = {
+        "File Name": uploaded_file.name,
+        "Resume Score": score,
+        "ATS Score": ats_score,
+        "Role": role
+    }
+
+    if new_record not in st.session_state.history:
+        st.session_state.history.append(new_record)
+    
+
     st.subheader("📄 Download PDF Report")
 
     pdf_file = create_pdf(score, ats_score, skills, role)
 
     with open(pdf_file, "rb") as file:
         st.download_button(
-        label="Download Report",
-        data=file,
-        file_name="Resume_Report.pdf",
-        mime="application/pdf"
-    )
-        st.subheader("🗄️ Resume History")
+            label="Download Report",
+            data=file,
+            file_name="Resume_Report.pdf",
+            mime="application/pdf"
+        )
+    st.subheader("🗄️ Resume History")
 
-        records = view_data()
+    df = pd.DataFrame(st.session_state.history)
 
-        df = pd.DataFrame(
-            records,
-            columns=["ID", "File Name", "Resume Score", "ATS Score", "Role"]
-   )
-
-        st.dataframe(df)
+    st.dataframe(df)
