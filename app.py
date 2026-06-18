@@ -4,6 +4,8 @@ from skill_extractor import extract_skills
 from score import calculate_score
 from ats_score import calculate_ats_score
 from pdf_report import create_pdf
+from database import save_data, view_data
+import pandas as pd
 
 st.title("Resume Analyzer")
 
@@ -74,6 +76,12 @@ if uploaded_file:
         role = "Web Developer"
 
     st.success(role)
+    save_data(
+        uploaded_file.name,
+        score,
+        ats_score,
+        role
+)
     st.subheader("📄 Download PDF Report")
 
     pdf_file = create_pdf(score, ats_score, skills, role)
@@ -85,3 +93,13 @@ if uploaded_file:
         file_name="Resume_Report.pdf",
         mime="application/pdf"
     )
+        st.subheader("🗄️ Resume History")
+
+        records = view_data()
+
+        df = pd.DataFrame(
+            records,
+            columns=["ID", "File Name", "Resume Score", "ATS Score", "Role"]
+   )
+
+        st.dataframe(df)
